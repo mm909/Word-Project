@@ -262,7 +262,10 @@ void ToBeOrNotToBe::PrintMetaData(){
   cout << setw(30) << "Average Fitness: " << AverageFitness << endl;
   cout << setw(30) << "Number of Generations: " << TotalGenerations << endl;
   cout << setw(30) << "Time Elapsed: " << ElapsedTime() << " Seconds." << endl;
+  cout << setfill('-') << setw(Border + 19) << "-" << setfill(' ') << endl;
+  cout << "Starting Sentence: ";
   cout << RandomizeString(TargetWord) << endl;
+  cout << "Ending Sentence: ";
   cout << TargetWord << endl;
-  cout << setfill('=') << setw(Border) << "=" << setfill(' ') << endl;
+  cout << setfill('=') << setw(Border + 19) << "=" << setfill(' ') << endl;
 }
