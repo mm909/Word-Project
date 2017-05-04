@@ -19,9 +19,9 @@ int main(){
 	int Popluation;
 	int Mutation;
 	int CharAmount;
-	cout << "Would you like to make your own input? y/n: ";
 	char Answer;
-	cin >> Answer;
+
+	Answer = 'n';
 
 	if (Answer == 'y' || Answer == 'Y'){
 		cin.ignore();
@@ -36,7 +36,7 @@ int main(){
 	}
 	else
 	{
-		Target = "We The People Of The United States Of America"; // To be replaced with user input
+		Target = "We the People of the United States, in Order to form a more perfect Union, establish Justice, insure domestic Tranquility, provide for the common defence, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity, do ordain and establish this Constitution for the United States of America."; // To be replaced with user input
 		Popluation = 250;
 		Mutation = 10;
 		CharAmount = 15;

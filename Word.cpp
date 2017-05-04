@@ -11,13 +11,14 @@
 
 using namespace std;
 
- ToBeOrNotToBe::ToBeOrNotToBe(string Target, int Pop, int Mute, int CharC) : Stopwatch() {
+ ToBeOrNotToBe::ToBeOrNotToBe(string Target, int Pop, int Mute, int CharC) {
 	TargetWord = Target;
 	Popluation = Pop;
 	Mutation = Mute;
   CharCount = CharC;
   TotalGenerations = 1;
   AverageFitness = 0;
+  firstTime = true;
 
   if(TargetWord.length() > 44){
     Border = 44 + (TargetWord.length() - 44);
@@ -29,8 +30,10 @@ using namespace std;
 }
 
 void ToBeOrNotToBe::Simulation () {
+  PrintStartingData();
   BreakUpSentence();
   for(int i = 0; i < NumberOfParts; i++){
+    CurrentString = PartsOfSentence[i];
     RunSimPart(PartsOfSentence[i]);
   }
   PrintMetaData();
@@ -67,12 +70,17 @@ void ToBeOrNotToBe::BreakUpSentence(){
 }
 
 string ToBeOrNotToBe::RunSimPart (string Part){
+  int PrintCount = 0;
   SetStringLength(Part);
 	PopluateSentences(Part);
 	while(MaxFitness != Part.length() + 1){
 		GetFitness(Part);
 		Sort();
 		PrintTheBest(Part);
+    PrintCount++;
+    if(PrintCount == 50 && firstTime){
+      cin >> stall;
+    }
 		PopluateGenePool();
 		ChooseParents(Part);
 		NewGen();
@@ -157,8 +165,39 @@ void ToBeOrNotToBe::PrintSentences(string Part){
 }
 
 void ToBeOrNotToBe::PrintTheBest(string Part){
-	cout << setw(Part.length() + 5) << left << Sentences[0].Words << setw(5) << left << Sentences[0].Fitness << endl;
+//  PrintChars(Sentences[0].Words);
+  cout << setw(Part.length() + 5) << left << Sentences[0].Words << setw(5) << left << Sentences[0].Fitness;
+  col++;
+  if(col == 1)
+  {
+    cout << endl;
+    col = 0;
+  }
 }
+
+void ToBeOrNotToBe::PrintChars(string Part){
+  for(int i = 0; i < Part.length(); i++){
+    if(Part[i] == CurrentString[i]){
+      system("color 07");
+      cout << Part[i];
+    }
+    else{
+      system("color 04");
+      cout << Part[i];
+    }
+  }
+//  cout << endl;
+}
+/*
+0 = Black       8 = Gray
+1 = Blue        9 = Light Blue
+2 = Green       A = Light Green
+3 = Aqua        B = Light Aqua
+4 = Red         C = Light Red
+5 = Purple      D = Light Purple
+6 = Yellow      E = Light Yellow
+7 = White       F = Bright White
+*/
 
 void ToBeOrNotToBe::PopluateGenePool(){
 	int GeneIndex = 0;
@@ -235,6 +274,14 @@ void ToBeOrNotToBe::ResetPartVars(){
   Part_Generations= 0;
 }
 
+void ToBeOrNotToBe::PrintStartingData(){
+  cout << endl;
+  for(int i = 0; i < 10; i++){
+    cout << RandomizeString(TargetWord) << endl << endl;
+  }
+  cin >> stall;
+}
+
 void ToBeOrNotToBe::PrintData(string Part){
   Part_AverageFitness = Part_FitnessSum / Part_FitnessCalcs;
 
@@ -251,21 +298,26 @@ void ToBeOrNotToBe::PrintData(string Part){
   for(int i = 0; i < 10; i++){
     cout << setw(30) << First10[i].Words << setw(30) << Sentences[i].Words << endl;
   }
-
-  usleep(microseconds);
+  if(firstTime){
+    cin >> stall;
+    firstTime = false;
+  } else {
+  sleep(1);
+  }
 }
 
 void ToBeOrNotToBe::PrintMetaData(){
   AverageFitness = FitnessSum / FitnessCalcs;
-  this->Stop();
-  cout << setfill('=') << setw(Border) << "=" << setfill(' ') << endl;
+  //this->Stop();
+  cout << setfill('=') << setw(44) << "=" << setfill(' ') << endl;
+  cout << endl;
   cout << setw(30) << "Average Fitness: " << AverageFitness << endl;
   cout << setw(30) << "Number of Generations: " << TotalGenerations << endl;
-  cout << setw(30) << "Time Elapsed: " << ElapsedTime() << " Seconds." << endl;
-  cout << setfill('-') << setw(Border + 19) << "-" << setfill(' ') << endl;
-  cout << "Starting Sentence: ";
+//  cout << setw(30) << "Time Elapsed: " << ElapsedTime() << " Seconds." << endl;
+  cout << endl;
+  cout << "Starting Sentence: " << endl;
   cout << RandomizeString(TargetWord) << endl;
-  cout << "Ending Sentence: ";
+  cout << endl;
+  cout << "Ending Sentence: " << endl;
   cout << TargetWord << endl;
-  cout << setfill('=') << setw(Border + 19) << "=" << setfill(' ') << endl;
 }

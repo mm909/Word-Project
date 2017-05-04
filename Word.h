@@ -2,7 +2,7 @@
 
 #include <string>
 using namespace std;
-
+/*
 class Stopwatch {
 public:
 	Stopwatch(){ Start = time(0); }
@@ -13,14 +13,14 @@ private:
 	clock_t End;
 	double Difference;
 };
-
+*/
 struct Phrase {
 public:
 		string Words;
 		int Fitness;
 };
 
-class ToBeOrNotToBe : Stopwatch {
+class ToBeOrNotToBe {
 
 public:
 	ToBeOrNotToBe(string, int, int, int);
@@ -36,6 +36,7 @@ private:
 	void Sort();
 	void PrintSentences(string);
 	void PrintTheBest(string);
+	void PrintChars(string);
 	void PopluateGenePool();
 	void ChooseParents(string);
 	void Reproduse(int, int, string);
@@ -45,6 +46,7 @@ private:
 	void PrintData(string);
 	void ResetPartVars();
 	void PrintMetaData();
+	void PrintStartingData();
 
 	string RandomizeString(string);
 
@@ -54,6 +56,7 @@ private:
 	int Border;
 
 	string TargetWord;
+	string CurrentString;
 
 	int Mutation;
 	int Popluation;
@@ -70,6 +73,9 @@ private:
 	double Part_FitnessCalcs;
 	double Part_FitnessSum;
 	int Part_Generations;
+	int col;
+	bool firstTime;
+	string stall;
 
 	Phrase First10[10];
 	int GeneCount;
